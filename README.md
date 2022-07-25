@@ -38,3 +38,4 @@ Construction...
 https://github.com/moein-shariatnia/OpenAI-CLIP
 - [2] CLIPstyler:Image Style Transfer with a Single Text Condition
 https://arxiv.org/abs/2112.00374
+# Text2LIVE
