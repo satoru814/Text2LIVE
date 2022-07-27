@@ -434,4 +434,8 @@ def build_model(state_dict: dict):
 
     convert_weights(model)
     model.load_state_dict(state_dict)
+<<<<<<< HEAD
     return model.eval()
+=======
+    return model.eval()
+>>>>>>> 9f5ae1a0eb4408a789ecc295a170229be3c8d7f8

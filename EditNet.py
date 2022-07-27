@@ -9,7 +9,7 @@ class UpBlock(nn.Module):
         super().__init__()
         self.upsample = nn.Upsample(scale_factor=2, mode="bilinear")
         self.conv = nn.Sequential(
-            nn.Conv2d(in_channel, out_channel, 3, 1, 1, ),
+            nn.Conv2d(in_channel, out_channel, 3, 1, 1),
             nn.InstanceNorm2d(out_channel),
             nn.LeakyReLU(),
             nn.Conv2d(out_channel, out_channel, 3, 1, 1,),
