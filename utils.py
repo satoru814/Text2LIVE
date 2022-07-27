@@ -4,7 +4,8 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 
 import numpy as np
-import pandas as pd
+import random
+import copy
 import matplotlib.pyplot as plt
 import os
 import sys
@@ -33,13 +34,14 @@ def load_image(path, img_size, plot_hist=False):
         plt.savefig("./outs/load_image.png")
     return img
 
-def get_transforms_patch(img_size=224, crop_size=128):
+def get_transforms(img_size):
     trans = transforms.Compose([
-        transforms.RandomCrop(crop_size),
-        # transforms.RandomPerspective(fill=0, p=1,distortion_scale=0.5),
-        transforms.Resize(img_size),
+        # transforms.RandomResizedCrop(size=img_size, ratio=(0.85, 0.95), ),
+        # transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1),
+        transforms.RandomHorizontalFlip(),
     ])
     return trans
+
 
 def img_denormalize(img, device, plot_hist=False):
     mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
@@ -76,25 +78,16 @@ def img_normalize_clip(img, device, plot_hist=False):
         plt.savefig("./outs/img_normalize.png")
     return img
 
-
-def get_features(img, model, layers=None):
-    if layers is None:
-        layers = {
-            "0":"conv1_1",
-            "5":"conv2_1",
-            "10":"conv3_1",
-            "19":"conv4_1",
-            "21":"conv4_2",
-            "28":"conv5_1",
-            "31":"conv5_2"
-            }
-    features = {}
-    x = img
-    for name, layer in model._modules.items():
-        x = layer(x)
-        if name in layers:
-            features[layers[name]] = x
-    return features
+    
+def calc_clip_similarity_matrix(img_tokens, device):
+    K = img_tokens.shape[1]
+    cosine_similarity_matrix = torch.zeros(size=(1, K, K)).to(device) #shape=(1,K,K)
+    for i in range(K):
+        for j in range(K):
+            cosine_similarity_matrix[0,i,j] = 1 - F.cosine_similarity(img_tokens[:,i,:], img_tokens[:,j,:])
+    return cosine_similarity_matrix
 
 def compose_text_with_templates(text, templates=imagenet_templates):
-    return [template.format(text) for template in templates]
+    rand = torch.randint(high=len(templates)-1, size=(1,))
+    template_text = templates[rand].format(text)
+    return template_text

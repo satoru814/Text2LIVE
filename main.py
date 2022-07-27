@@ -5,8 +5,16 @@ def parse_args():
     parser = argparse.ArgumentParser(description='CLIP')
     parser.add_argument("--train", "-t", action="store_true", default=False, help="training")
     parser.add_argument("--inference", "-i", action="store_true", default=False, help="training")
+    parser.add_argument("--infer-on-train", action="store_true", default=False, help="training")
     parser.add_argument("--wandb", "-w", action="store_true", default=False, help="wand loggings")
-    parser.add_argument("--save_weight", "-s", action="store_true", default=True, help="save model weight")
+    parser.add_argument("--save-weight", "-s", action="store_true", default=True, help="save model weight")
+    parser.add_argument("--log-picture", action="store_true", default=False, help="log picture")
+
+    parser.add_argument("--content-path",type=str, default=None, help="image path")
+    parser.add_argument("--text",type=str, default=None, help="text")
+    parser.add_argument("--tscreen",type=str, default=None, help="text for screen")
+    parser.add_argument("--troi",type=str, default=None, help="text for roi")
+    
     return parser.parse_args()
 
 def main():
