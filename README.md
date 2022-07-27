@@ -8,7 +8,7 @@ This method can perform partial edits by using edits layer that is inspired from
 
 # Results
 <p align="center">
-<img src="./assets/inference_bear_on_fire.png" width="400" />
+<img src="./assets/inference_bear_on_fire.png" width="600" />
 </p> 
 
 
